@@ -1,1 +1,245 @@
 
+## VENNAPUSA SAI CHARAN REDDY
+- Day 2: Timing Libraries, Synthesis Approaches, and Efficient Flip-Flop Coding
+---
+
+Welcome to Day 2 of the RTL Workshop. This day covers three crucial topics:
+
+1.Understanding the .lib timing library (sky130_fd_sc_hd__tt_025C_1v80.lib) used in open-source PDKs.
+
+2.Comparing hierarchical vs. flat synthesis methods.
+
+3.Exploring efficient coding styles for flip-flops in RTL design.
+
+---
+CONTENTS
+---
+
+1.Timing Libraries
+
+2.Hierarchical vs. Flattened Synthesis
+
+3.Flip-Flop Coding Styles
+
+4.Simulation and Synthesis Workflow
+
+---
+
+
+Timing Libraries
+---
+SKY130 PDK Overview
+---
+
+The SKY130 PDK is an open-source Process Design Kit based on SkyWater Technology's 130nm CMOS technology.
+It provides essential models and libraries for integrated circuit (IC) design, including:Timing
+Power and Process variation information
+
+Decoding tt_025C_1v80
+---
+
+1.tt → Typical process corner
+
+2.025C → Temperature 25°C (temperature-dependent performance)
+
+3.1v80 → Core voltage of 1.8V
+
+This naming clarifies which process, voltage, and temperature (PVT) corner the library models.
+
+---
+Opening and Exploring the .lib File
+
+## Install a text editor
+
+sudo apt install gedit
+
+
+## Open the library file
+
+
+gedit sky130_fd_sc_hd__tt_025C_1v80.lib
+
+<img src="https://res.cloudinary.com/dg6kvs6ij/image/upload/v1758989204/WhatsApp_Image_2025-09-27_at_9.13.16_PM_j5gh5b.jpg" alt="description" width="400">
+
+---
+Hierarchical vs. Flattened Synthesis
+---
+
+## Hierarchical Synthesis
+
+- *Definition:* Retains the module hierarchy as defined in RTL, synthesizing modules separately.
+- *How it Works:* Tools like Yosys process each module independently, using commands such as hierarchy to analyze and set up the design structure.
+
+## Advantages:
+
+- Faster synthesis time for large designs
+
+- Easier debugging and analysis due to preserved module boundaries
+
+- Modular approach aids integration with other tools
+
+## Disadvantages:
+
+- Limited cross-module optimization
+
+- Reporting may require extra configuration
+  
+ <img src="https://res.cloudinary.com/dg6kvs6ij/image/upload/v1758989203/WhatsApp_Image_2025-09-27_at_9.16.10_PM_1_ju6ul6.jpg" width="400">
+
+
+---
+## Flattened Synthesis
+
+- *Definition:* Merges all modules into a single flat netlist, eliminating hierarchy.
+
+- *How it Works:* The flatten command in Yosys collapses hierarchy for whole-design optimization.
+
+## Advantages:
+
+- Enables aggressive cross-module optimization
+
+- Produces a unified netlist
+
+##  Disadvantages:
+
+- Longer runtime for large designs
+
+- Loss of hierarchy complicates debugging
+
+- Higher memory usage and netlist complexity
+
+  <img src="https://res.cloudinary.com/dg6kvs6ij/image/upload/v1758989203/WhatsApp_Image_2025-09-27_at_9.16.10_PM_symbcj.jpg" alt="description" width="400">
+
+---
+
+### Key Differences
+- Aspect	Hierarchical Synthesis	Flattened Synthesis
+- Hierarchy	Preserved	Collapsed
+- Optimization Scope	Module-level only	Whole-design
+- Runtime	Faster for large designs	Slower for large designs
+- Debugging	Easier (traces to RTL)	Harder
+- Output Complexity	Modular structure	Single, complex netlist
+- Use Case	Modularity, analysis, reporting	Maximum optimization
+ ---
+## Flip-Flop Coding Styles
+---
+
+Flip-flops are fundamental sequential elements used to store binary data. Below are efficient coding styles:
+
+## 1. Asynchronous Reset D Flip-Flop
+
+module dff_asyncres (
+    input clk, 
+    input async_reset, 
+    input d, 
+    output reg q
+);
+  always @ (posedge clk, posedge async_reset)
+    if (async_reset)
+      q <= 1'b0;
+    else
+      q <= d;
+endmodule
+
+
+- Behavior: Asynchronous reset overrides clock and sets q to 0 immediately.
+
+- Edge-triggered: Captures d on rising clock edge if reset is low.
+
+## 2. Asynchronous Set D Flip-Flop
+
+module dff_async_set (
+    input clk, 
+    input async_set, 
+    input d, 
+    output reg q
+);
+  always @ (posedge clk, posedge async_set)
+    if (async_set)
+      q <= 1'b1;
+    else
+      q <= d;
+endmodule
+
+
+- Behavior: Asynchronous set overrides clock and sets q to 1 immediately.
+
+## 3. Synchronous Reset D Flip-Flop
+
+module dff_syncres (
+    input clk, 
+    input sync_reset, 
+    input d, 
+    output reg q
+);
+  always @ (posedge clk)
+    if (sync_reset)
+      q <= 1'b0;
+    else
+      q <= d;
+endmodule
+
+
+- Behavior: Reset takes effect only on the clock edge.
+---
+
+## Simulation and Synthesis Workflow
+
+---
+
+## Icarus Verilog Simulation
+1. Compile testbench and module
+
+iverilog dff_asyncres.v tb_dff_asyncres.v
+
+2. Run simulation
+
+./a.out
+
+3.View waveform
+
+gtkwave tb_dff_asyncres.vcd
+
+<img src="https://res.cloudinary.com/dg6kvs6ij/image/upload/v1758989203/WhatsApp_Image_2025-09-27_at_9.16.11_PM_hpuwxc.jpg" alt="description" width="400">
+---
+
+## Synthesis with Yosys
+1.Start Yosys
+
+yosys
+
+2. Read Liberty library
+
+read_liberty -lib /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+3. Read Verilog code
+
+read_verilog /path/to/dff_asyncres.v
+
+4. Synthesize top module
+
+synth -top dff_asyncres
+
+5. Map flip-flops
+
+dfflibmap -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+6. Technology mapping
+
+abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+7. Visualize netlist
+
+show
+
+<img src="https://res.cloudinary.com/dg6kvs6ij/image/upload/v1758989203/WhatsApp_Image_2025-09-27_at_9.16.10_PM_2_mxwrvj.jpg" alt="description" width="400">
+
+---
+
+## Summary:
+
+---
+Timing libraries define process, voltage, and temperature corners for accurate simulation and synthesis.
+Hierarchical synthesis preserves modules for modularity and easier debugging.
+Flattened synthesis enables full-chip optimization at the cost of runtime and complexity.
+Efficient flip-flop coding ensures reliable sequential behavior.
