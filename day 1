@@ -1,0 +1,138 @@
+Day 1: Introduction to Verilog RTL Design & Synthesis  
+
+Welcome to Day 1 of the RTL Workshop:  
+Today, you will start your journey into digital design by learning Verilog, open-source simulation with Icarus Verilog (iverilog), and the basics of logic synthesis using Yosys.  
+
+This guide contains practical labs, essential concepts, and detailed explanations to help you build a strong foundation in RTL design.  
+📖 Table of Contents
+1. What is a Simulator, Design, and Testbench?  
+2. Getting Started with iverilog  
+3. Lab: Simulating a 2-to-1 Multiplexer  
+4. Verilog Code Analysis  
+5. Introduction to Yosys & Gate Libraries  
+6. Synthesis Lab with Yosys  
+7. Summary  
+
+---
+
+1. What is a Simulator, Design, and Testbench?
+Simulator:  
+A simulator is a tool that checks your digital circuit’s functionality by applying test inputs and observing outputs.  
+✅ It helps you verify the design before hardware implementation.  
+Design:  
+The design is your Verilog code describing the intended digital logic.  
+Testbench:  
+A testbench is a simulation environment that applies inputs to your design and checks if outputs are correct.  
+
+ 2. Getting Started with iverilog  
+
+`iverilog` is an **open-source Verilog simulator**.  
+  Simulation Flow:
+- Provide design + testbench as inputs to `iverilog`.  
+- The simulator produces a `.vcd` file.  
+- View waveforms in **GTKWave**.  
+
+
+ 3. Lab: Simulating a 2-to-1 Multiplexer  
+
+ 🔹 Step 1: Clone the Repository  
+```bash
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
+🔹step 2:
+sudo apt install iverilog
+sudo apt install gtkwave
+🔹Step 3: Simulate the Design
+
+Compile design + testbench:
+
+iverilog good_mux.v tb_good_mux.v
+
+
+Run simulation:
+
+./a.out
+
+
+View waveform:
+
+gtkwave tb_good_mux.vcd
+
+4. Verilog Code Analysis
+
+good_mux.v:
+
+module good_mux (input i0, input i1, input sel, output reg y);
+always @ (*)
+begin
+    if(sel)
+        y <= i1;
+    else 
+        y <= i0;
+end
+endmodule
+
+🔎 How It Works:
+
+Inputs: i0, i1 (data), sel (select line)
+
+Output: y (selected output)
+
+Logic: If sel=1, y=i1; if sel=0, y=i0.
+
+5. Introduction to Yosys & Gate Libraries
+What is Yosys?
+
+Yosys is an open-source synthesis tool that converts Verilog into a gate-level netlist.
+
+Key Features:
+
+Synthesis: HDL → Logic
+
+Optimization: Speed / Area
+
+Technology Mapping: Uses real gate libraries
+
+Verification: Ensures correctness
+
+Why Multiple Gate Flavors in Libraries?
+
+A .lib file has different versions of the same gate:
+
+Performance: Faster gates for critical paths
+
+Power: Low-power gates for energy efficiency
+
+Area: Compact gates for smaller designs
+
+Drive Strength: Stronger gates for higher loads
+
+Signal Integrity: Specialized gates for noise control
+
+6. Synthesis Lab with Yosys
+Step 1: Start Yosys
+yosys
+
+Step 2: Read the Library
+read_liberty -lib /address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+Step 3: Read the Verilog Code
+read_verilog /home/vsduser/VLSI/sky130RTLDesignAndSynthesisWorkshop/verilog_files/good_mux.v
+
+Step 4: Run Synthesis
+synth -top good_mux
+
+Step 5: Map to Technology
+abc -liberty /address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+Step 6: View Gate-level Netlist
+show
+
+7. Summary
+
+✅ Learned about simulator, design, and testbench
+✅ Ran first Verilog simulation with iverilog
+✅ Visualized waveforms in GTKWave
+✅ Analyzed 2-to-1 mux Verilog code
+✅ Explored Yosys synthesis & gate libraries
+✅ Understood why libraries have different gate flavors
