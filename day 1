@@ -58,6 +58,8 @@ View waveform:
 
 gtkwave tb_good_mux.vcd
 
+https://github.com/cherry-046/SAI_VSD/blob/main/Screenshot%202025-05-29%20140441.png?raw=true
+
 4. Verilog Code Analysis
 
 good_mux.v:
