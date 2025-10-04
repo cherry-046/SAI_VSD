@@ -1,1 +1,81 @@
+Week 2 – BabySoC Fundamentals & Functional Modelling
+🎯 Objective:
+The main goal of this week is to understand the fundamental concepts of System-on-Chip (SoC) design and to get hands-on experience with functional modelling using simulation tools like Icarus Verilog and GTKWave.
+Through this, we explore how BabySoC serves as a simplified learning model to understand SoC architecture and the design flow from specification to simulation.
+🔍 What is a System-on-Chip (SoC)?
+A System-on-Chip (SoC) is an integrated circuit (IC) that brings together all essential components of a computer or electronic system on a single silicon chip.
+Unlike traditional systems that use multiple separate chips for CPU, memory, and I/O, an SoC combines everything into one compact design, enabling higher speed, lower power, and smaller size.
 
+Key Characteristics of an SoC:
+Integration: Combines processor, memory, I/O interfaces, and custom logic on a single chip.
+Performance: Offers high data transfer rates with minimal latency.
+Power Efficiency: Optimized for low power, suitable for mobile and embedded systems.
+Compactness: Reduces the number of components, improving reliability and cost-effectiveness.
+
+🧩 Components of a Typical SoC
+
+1. CPU (Central Processing Unit):
+The “brain” of the system that executes instructions and controls the operation of other blocks.
+Usually based on architectures like RISC-V, ARM, or x86 in commercial systems.
+
+2. Memory (ROM & RAM):
+ROM (Read Only Memory): Stores firmware or boot instructions.
+RAM (Random Access Memory): Used for temporary data and program execution.
+
+3. Peripherals:
+External interface blocks like UART, SPI, GPIO, Timers, ADCs, etc.
+These allow the CPU to interact with external devices and perform specific tasks.
+
+4. Interconnect (Bus System):
+Acts as the communication backbone connecting CPU, memory, and peripherals.
+Common standards include AHB, AXI, or Wishbone in complex SoCs.
+
+5. Clock and Reset Circuits:
+Synchronize all operations and provide system initialization.
+
+🧮 What is BabySoC?
+BabySoC is a simplified learning model that represents the essential structure and operation of a real-world SoC but at a smaller, easy-to-understand scale.
+It helps students and beginners learn how a CPU, memory, and peripherals interact through functional simulation before moving to complex hardware implementation.
+
+Key Features:
+Minimal number of components — CPU core, simple memory, and limited peripherals.
+Simulated using Icarus Verilog (for functional behavior) and GTKWave (for waveform analysis).
+Provides a clear step-by-step learning path towards full SoC design and verification.
+
+Learning Outcomes with BabySoC:
+Understanding internal data flow between CPU, memory, and I/O.
+Learning Verilog-based functional simulation of system components.
+Building the foundation for advanced design stages (RTL, synthesis, and physical design).
+
+⚙ Role of Functional Modelling in SoC Design Flow
+Before moving to RTL design or physical implementation, functional modelling plays a crucial role in verifying that the architecture works logically as intended.
+Purpose of Functional Modelling:
+
+Early Validation: Ensures design correctness before time-consuming synthesis and layout.
+
+Behavioral Simulation: Describes how different components interact without focusing on hardware timing.
+
+Debugging: Allows identifying logic and connection issues at the earliest stage.
+
+System Understanding: Provides a big-picture view of SoC behavior and communication.
+
+Tools Used:
+Icarus Verilog: Open-source simulator used for writing and testing Verilog modules at the functional level.
+GTKWave: Waveform viewer that displays simulation results, showing signal transitions and data flow over time.
+
+🧩 How BabySoC Fits into the SoC Learning Journey
+Stage	Description	Learning Focus
+Functional Modelling	Simulate system behavior using Verilog.	Logical correctness and system flow.
+RTL Design	Define register-level architecture and data path.	Hardware-accurate design.
+Synthesis	Convert RTL code to gate-level design.	Hardware resource mapping.
+Physical Design	Layout, routing, and timing optimization.	Silicon-level implementation.
+BabySoC acts as the first and most important learning milestone in this journey — helping understand how different SoC modules interact functionally before delving into complex physical-level operations.
+
+🧠 Summary
+
+In this week’s task, we explored:
+The basic structure and working of a System-on-Chip (SoC).
+Core components like CPU, memory, peripherals, and interconnects.
+The importance of BabySoC as a simplified model to learn SoC design concepts.
+The critical role of functional modelling using Icarus Verilog and GTKWave for early verification.
+This foundation builds a strong understanding for the next steps — writing Verilog code, simulating SoC modules, and analyzing results, which lead to the RTL and physical design stages of real-world SoC development.
